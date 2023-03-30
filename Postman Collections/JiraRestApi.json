@@ -1,0 +1,416 @@
+{
+	"info": {
+		"_postman_id": "5351bf6a-1d1d-4730-8763-6252793c4286",
+		"name": "JiraRestApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "JiraRestApi",
+			"item": [
+				{
+					"name": "Autenthication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ef00e0de-9021-4d3b-a544-0ffcddf47752",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"SessionId\", jsonData.session.value);\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"SessionId\", jsonData.session.value);\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Jason check\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.value).to.eql();\r",
+									"});\r",
+									"pm"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "1c52fcfd-2437-47d3-abf2-00822b2ebaef",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"username\": \"piotrwasilewski2510\", \"password\": \"Legia503\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/rest/auth/1/session"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllProjects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d0788c1a-0f30-4f97-9ff9-7eca4b985c99",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"pm.test(\"Json check\", function () {\r",
+									"    pm.expect(response.value).to.eql();\r",
+									"});\r",
+									"pm.test(\"Array should be not empty\" , function(){\r",
+									"    pm.expect(response,Array).is.not.empty;\r",
+									"})\r",
+									"pm.test(\"Number of projects\", function(){\r",
+									"    var actualNumberOfProjects = response.length;\r",
+									"    console.log(\"Actual number is \" + actualNumberOfProjects)\r",
+									"\r",
+									"pm.environment.set(\"actualNumberOfProjects\", actualNumberOfProjects);\r",
+									"\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c2b9b1df-1230-476d-a554-53bf969b4bb7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "e71f6433-56cc-4070-b736-67c10ddbb3ea",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=AD3C6E1C50867B553B283535275C5157",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "http://localhost:8080/rest/api/2/project"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "61cb17ca-ae6a-4811-ad50-192e729f3a50",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									" const response = pm.response.json();\r",
+									"pm.test(\"JsonCheck\", function () {\r",
+									"\r",
+									"    pm.expect(response.value).to.eql();\r",
+									"});\r",
+									"pm.test(\"Respons have all parameter\", function(){\r",
+									"    pm.expect(response).to.have.property('self');\r",
+									"    pm.expect(response).to.have.property('id');\r",
+									"    pm.expect(response).to.have.property('key');\r",
+									"})\r",
+									"pm.test(\"Property id should be a number\", function(){\r",
+									"    pm.expect(response.id).to.be.a(\"number\");\r",
+									"})\r",
+									"pm.test(\"Property key should be a string\", function(){\r",
+									"    pm.expect(response.key).to.be.a(\"string\");\r",
+									"})\r",
+									"pm.test(\"Property self should have url adress\", function(){\r",
+									"    pm.expect(response.self).to.include(\"http://localhost:8080\");\r",
+									"})\r",
+									"\r",
+									"var createdProjectId = response.id\r",
+									"pm.environment.set('createdProjectId',response.id)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "354ca419-f33e-49fc-a70b-6788676e0664",
+								"exec": [
+									"function makeid(length) {\r",
+									"    let result = '';\r",
+									"    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"    const charactersLength = characters.length;\r",
+									"    let counter = 0;\r",
+									"    while (counter < length) {\r",
+									"      result += characters.charAt(Math.floor(Math.random() * charactersLength));\r",
+									"      counter += 1;\r",
+									"    }\r",
+									"    return result;\r",
+									"}\r",
+									"\r",
+									"var randomKey = makeid(3).toUpperCase('ABCDEFGHIJKLMNOPQRSTUVWXYZ')\r",
+									"pm.environment.set('randomKey',randomKey)\r",
+									"var randomName = makeid(11)\r",
+									"pm.environment.set('randomName',randomName)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "bcc79e81-c9ba-478e-8651-3041a9db11d3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=04B8FC24738AF769D188C74251DF609E",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"key\":\"{{randomKey}}\",\r\n    \"name\":\"{{randomName}}\",\r\n    \"projectTypeKey\": \"business\",\r\n    \"projectTemplateKey\": \"com.atlassian.jira-core-project-templates:jira-core-project-management\",\r\n    \"description\": \"Example Project description\",\r\n    \"lead\": \"piotrwasilewski2510\",\r\n    \"url\": \"http://atlassian.com\",\r\n    \"assigneeType\": \"PROJECT_LEAD\",\r\n    \"avatarId\": 10200,\r\n    \r\n    \"permissionScheme\": 10000,\r\n    \"notificationScheme\": 10000,\r\n    \"workflowSchemeId\": 10200\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/rest/api/2/project"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllProjectsAfterCreate",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "468bc9b0-a419-4022-b584-291a9bf33856",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "90e1b1af-7b9e-4ced-9fe3-d55635ee9fcc",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"pm.test(\"Json check\", function () {\r",
+									"    pm.expect(response.value).to.eql();\r",
+									"});\r",
+									"pm.test(\"Array should be not empty\" , function(){\r",
+									"    pm.expect(response,Array).is.not.empty;\r",
+									"})\r",
+									"pm.test(\"Number of projects after created\", function() {\r",
+									"    var actualNumberOfProjects = response.length;\r",
+									"    console.log(\"Actual number is \" + actualNumberOfProjects)\r",
+									"    var expectedNumberOfProjects = pm.environment.get(\"actualNumberOfProjects\") + 1\r",
+									"    console.log(\"Expected number of projects is \" + expectedNumberOfProjects)\r",
+									"    pm.expect(expectedNumberOfProjects).is.equal(actualNumberOfProjects)\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "edb7f2b1-59ea-48cc-be74-6e099dc9833f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=AD3C6E1C50867B553B283535275C5157",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "http://localhost:8080/rest/api/2/project"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSingleProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5e06312c-7bfa-4c3c-9ee0-6117783c86a9",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Json check\", function () {\r",
+									"    pm.expect(response.value).to.eql();\r",
+									"});\r",
+									"pm.test(\"Array is not empty\", function(){\r",
+									"    pm.expect(response).is.not.empty;\r",
+									"});\r",
+									"pm.test(\"Response have property self, id, key\", function(){\r",
+									"    pm.expect(response).to.have.property(\"self\");\r",
+									"    pm.expect(response).to.have.property(\"id\");\r",
+									"    pm.expect(response).to.have.property(\"key\");\r",
+									"})\r",
+									"pm.test(\"Property self includes base url adress\", function(){\r",
+									"    pm.expect(response.self).to.include(\"http://localhost:8080\");\r",
+									"});\r",
+									"pm.test(\"Property id should be a string\", function(){\r",
+									"    pm.expect(response.id).to.be.a(\"string\");\r",
+									"});\r",
+									"pm.test(\"Property assigneeType should be eql PROJECT_LEAD \", function()\r",
+									"{\r",
+									"    pm.expect(response.assigneeType).to.be.eql(\"PROJECT_LEAD\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "71cf91e5-8a19-4eae-a33e-1b3c14ccce4f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{url}}/rest/api/2/project/{{createdProjectId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4cb622a8-9417-49b6-a24b-202732b9fbcd",
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6a0c1ced-0fac-47b1-ad59-069fec81926c",
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "dbae798e-c3e2-4501-be2c-5080616b2626",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{url}}/rest/api/2/project/{{createdProjectId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSingleProjectAfterDelete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5e06312c-7bfa-4c3c-9ee0-6117783c86a9",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "4af255ee-3cb8-4811-82f5-75680545e730",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{url}}/rest/api/2/project/{{createdProjectId}}"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "67101812-d4b2-4596-9c2a-2443c47c36fe"
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": {
+			"value": "JSESSIONID={{SessionId}}",
+			"key": "Cookie"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "aee6c154-abe8-4d46-a37e-c330693587b6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a1f77f27-8dfe-4544-8749-6f26be96142a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
