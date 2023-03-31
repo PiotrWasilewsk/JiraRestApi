@@ -1,5 +1,5 @@
 # JiraRestApi
-Repozytorium "JiraRestApi" jest zestawem testów dla aplikacji **http://localhost:8080/**. Na podstawie dokumentacji API sporządziłem kolekcję w programie Postman o takiej samej nazwie jak repozytorium. Kolekcja "JiraRestApi" zawiera następujace request-y:
+Repozytorium "JiraRestApi" jest zestawem testów dla aplikacji JIRA uruchamianej lokalnie na hoście: **http://localhost:8080/**. Na podstawie dokumentacji API sporządziłem kolekcję w programie Postman o takiej samej nazwie jak repozytorium. Kolekcja "JiraRestApi" zawiera następujace request-y:
 - Autenthication, 
 - GetAllProjects, 
 - CreateNewProject,
