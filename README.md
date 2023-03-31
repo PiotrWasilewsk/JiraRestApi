@@ -21,4 +21,8 @@ Do przeprowadzenia powyższych testów potrzeba ustawić serwer Jira na naszym l
 - Na kolejnej tablicy kliknąć przycisk "Finish". W przegladarce uruchamia sie serwer,
 - Po uruchomieniu serwera wybrać "Set it up for me" i kliknąć w przycisk "Continue to MyAtlassian",
 - Następnie w zależności należy się zalogowoć lub utworzyć konto,
-- 
+- W kolejnym kroku potwierdzić licencję wybierając opcję "Jira software data center",
+- Następnie ustawićkonto administratora należy uzupełnić pola "email", "username" oraz "password", kliknąć przycisk "Next",
+- Instalacja zostaje zakończona.
+
+Należy pamiętać, że przy każdym ponownym włączeniu komputera należy uruchomić serwer localhost8080. Można to zrobić np wciskająć na klawiaturze znaczek "windows", wpisać z klawiatury "Jira" i kliknąć w "Start Jira Server"
