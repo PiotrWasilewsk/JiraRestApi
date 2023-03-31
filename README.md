@@ -8,7 +8,7 @@ Repozytorium "JiraRestApi" jest zestawem testów dla aplikacji JIRA uruchamianej
 - DeleteProject,
 - GetSingleProjectAfterDelete.
 
-Na potrzeby powyższych request-ów opracowałem zestawy testów, które swoim zakresem, obejmuja jak najszersze spektrum wystąpienia błędów, zarówno jeśli chodzi o kody statusów wysyłanych z serwera, jak i niektóre funkcje które umożliwia aplikacja ** http://localhost:8080/** oraz poprawnie sformatowane ciała odpowiedzi.
+Na potrzeby powyższych request-ów opracowałem zestawy testów, które swoim zakresem, obejmuja jak najszersze spektrum wystąpienia błędów, zarówno jeśli chodzi o kody statusów wysyłanych z serwera, jak i niektóre funkcje które umożliwia aplikacja oraz poprawnie sformatowane ciała odpowiedzi.
 Kolekcja "JiraRestApi" zawiera "szczęśliwą ścieżkę" reprodukcyjną.
 Do przeprowadzenia powyższych testów potrzeba ustawić serwer Jira na naszym lokalnym systemie. Aby to zrobić należy podjąć następujące kroki:
 - Pobrać ze strony **https://www.atlassian.com/software/jira/update** Jira software,
